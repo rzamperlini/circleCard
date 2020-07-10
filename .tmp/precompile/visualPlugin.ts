@@ -5,9 +5,9 @@ import VisualConstructorOptions = powerbiVisualsApi.extensibility.visual.VisualC
 var powerbiKey: any = "powerbi";
 var powerbi: any = window[powerbiKey];
 
-var circleCard3197AFBD9475490BBFF774FAFF879CF8_DEBUG: IVisualPlugin = {
-    name: 'circleCard3197AFBD9475490BBFF774FAFF879CF8_DEBUG',
-    displayName: 'CircleCard',
+var circleCard3197AFBD9475490BBFF774FAFF879CF8: IVisualPlugin = {
+    name: 'circleCard3197AFBD9475490BBFF774FAFF879CF8',
+    displayName: 'Circle Card',
     class: 'Visual',
     apiVersion: '2.6.0',
     create: (options: VisualConstructorOptions) => {
@@ -23,7 +23,7 @@ var circleCard3197AFBD9475490BBFF774FAFF879CF8_DEBUG: IVisualPlugin = {
 if (typeof powerbi !== "undefined") {
     powerbi.visuals = powerbi.visuals || {};
     powerbi.visuals.plugins = powerbi.visuals.plugins || {};
-    powerbi.visuals.plugins["circleCard3197AFBD9475490BBFF774FAFF879CF8_DEBUG"] = circleCard3197AFBD9475490BBFF774FAFF879CF8_DEBUG;
+    powerbi.visuals.plugins["circleCard3197AFBD9475490BBFF774FAFF879CF8"] = circleCard3197AFBD9475490BBFF774FAFF879CF8;
 }
 
-export default circleCard3197AFBD9475490BBFF774FAFF879CF8_DEBUG;
+export default circleCard3197AFBD9475490BBFF774FAFF879CF8;

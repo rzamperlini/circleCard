@@ -30,6 +30,7 @@ import powerbi from "powerbi-visuals-api";
 import IVisual = powerbi.extensibility.IVisual;
 import VisualConstructorOptions = powerbi.extensibility.visual.VisualConstructorOptions;
 import VisualUpdateOptions = powerbi.extensibility.visual.VisualUpdateOptions;
+import { VisualSettings } from "./settings";
 import EnumerateVisualObjectInstancesOptions = powerbi.EnumerateVisualObjectInstancesOptions;
 import VisualObjectInstanceEnumeration = powerbi.VisualObjectInstanceEnumeration;
 import IVisualHost = powerbi.extensibility.visual.IVisualHost;
@@ -39,13 +40,14 @@ import * as d3 from "d3";
 type Selection<T extends d3.BaseType> = d3.Selection<T, any, any, any>;
 
 export class Visual implements IVisual {
-
+   
     private host: IVisualHost;
     private svg: Selection<SVGElement>;
     private container: Selection<SVGElement>;
     private circle: Selection<SVGElement>;
     private textValue: Selection<SVGElement>;
     private textLabel: Selection<SVGElement>;
+    private visualSettings: VisualSettings;
 
     constructor(options: VisualConstructorOptions) {
         this.svg = d3.select(options.element)
@@ -61,6 +63,11 @@ export class Visual implements IVisual {
             .classed("textLabel", true);
     }
 
+    public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstanceEnumeration {
+        const settings: VisualSettings = this.visualSettings || <VisualSettings>VisualSettings.getDefault();
+        return VisualSettings.enumerateObjectInstances(settings, options);
+    }
+
     public update(options: VisualUpdateOptions) {
         let dataView: DataView = options.dataViews[0];
         let width: number = options.viewport.width;
@@ -69,11 +76,17 @@ export class Visual implements IVisual {
         this.svg.attr("width", width);
         this.svg.attr("height", height);
         let radius: number = Math.min(width, height) / 2.2;
+
+        this.visualSettings = VisualSettings.parse<VisualSettings>(dataView);
+
+        this.visualSettings.circle.circleThickness = Math.max(0, this.visualSettings.circle.circleThickness);
+        this.visualSettings.circle.circleThickness = Math.min(10, this.visualSettings.circle.circleThickness);
+
         this.circle
-            .style("fill", "white")
+            .style("fill", this.visualSettings.circle.circleColor)
             .style("fill-opacity", 0.5)
             .style("stroke", "black")
-            .style("stroke-width", 2)
+            .style("stroke-width", this.visualSettings.circle.circleThickness)
             .attr("r", radius)
             .attr("cx", width / 2)
             .attr("cy", height / 2);
