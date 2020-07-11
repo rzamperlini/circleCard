@@ -1,7 +1,7 @@
 {
     "dataRoles": [
         {
-            "displayName": "Medida",
+            "displayName": "Measure",
             "name": "measure",
             "kind": "Measure"
         }
